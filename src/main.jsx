@@ -327,7 +327,7 @@ function App() {
             ))}
           </div>
 
-          <button className="primary-action" type="button" disabled={!selection} onClick={startQuiz}>
+          <button className="primary-action start-action" type="button" disabled={!selection} onClick={startQuiz}>
             <Sparkles size={20} />
             Start 10-question quiz
           </button>

@@ -84,7 +84,7 @@ export const bigTopics = [
   },
   {
     id: "people-words",
-    label: "People & Words",
+    label: "People & Language",
     categories: ["people-family", "people-roles", "communication"],
   },
   {

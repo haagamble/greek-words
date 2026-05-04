@@ -67,11 +67,13 @@ const categoryLabels = {
   weather: "Weather",
 };
 
+// Repairs older Greek text entries if they were saved with broken encoding.
 function repairText(value) {
   if (typeof value !== "string" || !/[ÎÏ]/.test(value)) {
     return value;
   }
 
+  // Some older entries were saved with mojibake; repair them at runtime.
   const bytes = Uint8Array.from(Array.from(value), (char) => char.charCodeAt(0) & 255);
   return new TextDecoder("utf-8").decode(bytes);
 }
@@ -82,10 +84,12 @@ const cleanWords = words.map((word) => ({
   article: repairText(word.article),
 }));
 
+// Returns a shuffled copy without changing the original array.
 function shuffle(items) {
   return [...items].sort(() => Math.random() - 0.5);
 }
 
+// Keeps the first item for each unique key value.
 function uniqueBy(items, key) {
   const seen = new Set();
   return items.filter((item) => {
@@ -98,11 +102,14 @@ function uniqueBy(items, key) {
   });
 }
 
+// Picks the words for one quiz from the selected level or topic pool.
 function getQuizWords(pool) {
   return shuffle(pool).slice(0, Math.min(QUESTION_COUNT, pool.length));
 }
 
+// Builds the multiple-choice answers for the current question.
 function getOptions(answer, allWords) {
+  // Prefer distractors from the same small category and level, then widen if needed.
   const sameLevelWrongAnswers = uniqueBy(
     shuffle(
       allWords.filter(
@@ -139,6 +146,7 @@ function getOptions(answer, allWords) {
   return shuffle([answer, ...wrongAnswers]).map((word) => word.english);
 }
 
+// Builds the list of level choices shown on the setup screen.
 function getLevelItems() {
   return [...new Set(cleanWords.map((word) => word.level))]
     .sort((a, b) => a - b)
@@ -152,6 +160,7 @@ function getLevelItems() {
     });
 }
 
+// Builds the list of broad topic choices shown on the setup screen.
 function getCategoryItems() {
   return bigTopics.map((topic) => {
       const count = getTopicWords(topic, cleanWords).length;
@@ -163,15 +172,18 @@ function getCategoryItems() {
     });
 }
 
+// Finds a word's position within its narrow category.
 function getCategoryPosition(word, allWords) {
   return allWords.filter((item) => item.category === word.category).findIndex((item) => item.id === word.id);
 }
 
+// Decides whether a word belongs in the first or second half of a split topic.
 function isInSplit(word, split, allWords) {
   if (!split) {
     return true;
   }
 
+  // Big topics can use "first" or "second" to divide long categories in half.
   const categoryWords = allWords.filter((item) => item.category === word.category);
   const halfway = Math.ceil(categoryWords.length / 2);
   const position = getCategoryPosition(word, allWords);
@@ -179,7 +191,9 @@ function isInSplit(word, split, allWords) {
   return split === "first" ? position < halfway : position >= halfway;
 }
 
+// Expands a broad topic definition into the actual words it contains.
 function getTopicWords(topic, allWords) {
+  // Topic quizzes use broad groups; words keep narrow categories for distractors.
   return allWords.filter((word) => {
     if (!topic.categories.includes(word.category)) {
       return false;
@@ -189,6 +203,7 @@ function getTopicWords(topic, allWords) {
   });
 }
 
+// Main app component: handles setup, quiz state, answers, and results.
 function App() {
   const [mode, setMode] = useState("level");
   const [selection, setSelection] = useState(null);
@@ -220,11 +235,13 @@ function App() {
     return getOptions(currentWord, cleanWords);
   }, [currentWord]);
 
+  // Switches between level mode and topic mode.
   function changeMode(nextMode) {
     setMode(nextMode);
     setSelection(null);
   }
 
+  // Starts a fresh quiz from the current selection.
   function startQuiz() {
     const nextQuizWords = getQuizWords(selectedPool);
     setQuizWords(nextQuizWords);
@@ -232,6 +249,7 @@ function App() {
     setCurrentIndex(0);
   }
 
+  // Records the user's answer and prevents changing it afterward.
   function chooseAnswer(answer) {
     if (currentAnswer) {
       return;
@@ -247,16 +265,19 @@ function App() {
     });
   }
 
+  // Advances to the next question, or past the last question to results.
   function nextQuestion() {
     setCurrentIndex((index) => index + 1);
   }
 
+  // Returns to the setup screen while keeping the current mode.
   function resetQuiz() {
     setQuizWords([]);
     setAnswers([]);
     setCurrentIndex(0);
   }
 
+  // Starts another random quiz from the same selected level or topic.
   function replaySelection() {
     const nextQuizWords = getQuizWords(selectedPool);
     setQuizWords(nextQuizWords);
@@ -269,7 +290,7 @@ function App() {
       {!isQuizStarted && (
         <section className="setup-panel" aria-labelledby="setup-heading">
           <p className="eyebrow">Greek vocabulary</p>
-          <h1 id="setup-heading">Select a Word List</h1>
+          <h1 id="setup-heading">First 1500 Words</h1>
 
           <div className="mode-toggle" aria-label="Quiz type">
             <button
@@ -301,7 +322,7 @@ function App() {
                 onClick={() => setSelection(item.id)}
               >
                 <span>{item.title}</span>
-                <small>{item.meta}</small>
+                <small className="word-count">{item.meta}</small>
               </button>
             ))}
           </div>
@@ -334,7 +355,7 @@ function App() {
           <div className="word-prompt">
             <p>Choose the English meaning</p>
             <h2 id="question-heading">
-              {currentWord.article && <span>{currentWord.article}</span>} {currentWord.greek}
+              {currentWord.article && <span className="article-hint">{currentWord.article}</span>} {currentWord.greek}
             </h2>
           </div>
 
@@ -411,7 +432,7 @@ function App() {
             </button>
             <button className="primary-action compact" type="button" onClick={replaySelection}>
               <RotateCcw size={19} />
-              Try again
+              New quiz from this list
             </button>
           </div>
         </section>

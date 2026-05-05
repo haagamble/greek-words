@@ -16,8 +16,17 @@ export const words = [
   { id: "truth", type: "noun", level: 10, category: "abstract-nouns", english: "truth", greek: "αλήθεια", article: "η", gender: "feminine" },
   { id: "lie", type: "noun", level: 10, category: "abstract-nouns", english: "lie", greek: "ψέμα", article: "το", gender: "neuter" },
   { id: "idea", type: "noun", level: 10, category: "abstract-nouns", english: "idea", greek: "ιδέα", article: "η", gender: "feminine" },
-  { id: "dream", type: "noun", level: 10, category: "abstract-nouns", english: "dream", greek: "όνειρο", article: "το", gender: "neuter" },
   { id: "memory", type: "noun", level: 10, category: "abstract-nouns", english: "memory", greek: "μνήμη", article: "η", gender: "feminine" },
+
+  // --- Level 13 ---
+  { id: "dream", type: "noun", level: 13, category: "abstract-nouns", english: "dream", greek: "όνειρο", article: "το", gender: "neuter" },
+  { id: "grade", type: "noun", level: 13, category: "abstract-nouns", english: "grade", greek: "βαθμός", article: "ο", gender: "masculine" },
+  { id: "exam", type: "noun", level: 13, category: "abstract-nouns", english: "exam", greek: "εξέταση", article: "η", gender: "feminine" },
+  { id: "lesson", type: "noun", level: 13, category: "abstract-nouns", english: "lesson", greek: "μάθημα", article: "το", gender: "neuter" },
+  { id: "presentation", type: "noun", level: 13, category: "abstract-nouns", english: "presentation", greek: "παρουσίαση", article: "η", gender: "feminine" },
+  { id: "test", type: "noun", level: 13, category: "abstract-nouns", english: "test", greek: "διαγώνισμα", article: "το", gender: "neuter" },
+  { id: "department", type: "noun", level: 13, category: "abstract-nouns", english: "department", greek: "τμήμα", article: "το", gender: "neuter" },
+  { id: "goal-objective", type: "noun", level: 13, category: "abstract-nouns", english: "goal / objective", greek: "στόχος", article: "ο", gender: "masculine" },
 
   // --- Level 16 ---
   { id: "imagination", type: "noun", level: 16, category: "abstract-nouns", english: "imagination", greek: "φαντασία", article: "η", gender: "feminine" },
@@ -277,6 +286,8 @@ export const words = [
   { id: "finally", type: "adverb", level: 13, category: "adverbs", english: "finally", greek: "τελικά", article: "", gender: "none" },
   { id: "suddenly", type: "adverb", level: 13, category: "adverbs", english: "suddenly", greek: "ξαφνικά", article: "", gender: "none" },
   { id: "terribly", type: "adverb", level: 13, category: "adverbs", english: "terribly", greek: "τρομερά", article: "", gender: "none" },
+  { id: "already", type: "adverb", level: 13, category: "adverbs", english: "already", greek: "ήδη", article: "", gender: "none" },
+  { id: "still-yet", type: "adverb", level: 13, category: "adverbs", english: "still / yet", greek: "ακόμα", article: "", gender: "none" },
 
   // ===== Animals =====
 
@@ -342,7 +353,6 @@ export const words = [
   { id: "seagull", type: "noun", level: 12, category: "animals", english: "seagull", greek: "γλάρος", article: "ο", gender: "masculine" },
   { id: "parrot", type: "noun", level: 12, category: "animals", english: "parrot", greek: "παπαγάλος", article: "ο", gender: "masculine" },
   { id: "sparrow", type: "noun", level: 12, category: "animals", english: "sparrow", greek: "σπουργίτι", article: "το", gender: "neuter" },
-  { id: "swallow-bird", type: "noun", level: 12, category: "animals", english: "swallow", greek: "χελιδόνι", article: "το", gender: "neuter" },
   { id: "crow", type: "noun", level: 12, category: "animals", english: "crow", greek: "κοράκι", article: "το", gender: "neuter" },
 
   // ===== Appliances =====
@@ -804,7 +814,6 @@ export const words = [
   { id: "lamp", type: "noun", level: 4, category: "household", english: "lamp", greek: "λάμπα", article: "η", gender: "feminine" },
   { id: "television", type: "noun", level: 4, category: "household", english: "television", greek: "τηλεόραση", article: "η", gender: "feminine" },
   { id: "phone", type: "noun", level: 4, category: "household", english: "phone", greek: "τηλέφωνο", article: "το", gender: "neuter" },
-  { id: "book", type: "noun", level: 6, category: "school-office", english: "book", greek: "βιβλίο", article: "το", gender: "neuter" },
   { id: "plate", type: "noun", level: 4, category: "household", english: "plate", greek: "πιάτο", article: "το", gender: "neuter" },
   { id: "cup", type: "noun", level: 4, category: "household", english: "cup", greek: "κούπα", article: "η", gender: "feminine" },
   { id: "fork", type: "noun", level: 4, category: "household", english: "fork", greek: "πιρούνι", article: "το", gender: "neuter" },
@@ -813,6 +822,7 @@ export const words = [
   { id: "armchair", type: "noun", level: 4, category: "household", english: "armchair", greek: "πολυθρόνα", article: "η", gender: "feminine" },
   { id: "closet", type: "noun", level: 4, category: "household", english: "closet", greek: "ντουλάπα", article: "η", gender: "feminine" },
   { id: "glass", type: "noun", level: 4, category: "household", english: "glass", greek: "ποτήρι", article: "το", gender: "neuter" },
+  { id: "bowl", type: "noun", level: 4, category: "household", english: "bowl", greek: "μπολ", article: "το", gender: "neuter" },
 
   // --- Level 6 ---
   { id: "mirror", type: "noun", level: 6, category: "household", english: "mirror", greek: "καθρέφτης", article: "ο", gender: "masculine" },
@@ -821,7 +831,6 @@ export const words = [
   { id: "soap", type: "noun", level: 6, category: "household", english: "soap", greek: "σαπούνι", article: "το", gender: "neuter" },
   { id: "pillow", type: "noun", level: 6, category: "household", english: "pillow", greek: "μαξιλάρι", article: "το", gender: "neuter" },
   { id: "bottle", type: "noun", level: 6, category: "household", english: "bottle", greek: "μπουκάλι", article: "το", gender: "neuter" },
-  { id: "bowl", type: "noun", level: 6, category: "household", english: "bowl", greek: "μπολ", article: "το", gender: "neuter" },
   { id: "blanket", type: "noun", level: 6, category: "household", english: "blanket", greek: "κουβέρτα", article: "η", gender: "feminine" },
   { id: "towel", type: "noun", level: 6, category: "household", english: "towel", greek: "πετσέτα", article: "η", gender: "feminine" },
   { id: "sheet", type: "noun", level: 6, category: "household", english: "sheet", greek: "σεντόνι", article: "το", gender: "neuter" },
@@ -930,7 +939,6 @@ export const words = [
   { id: "bill", type: "noun", level: 12, category: "money-shopping", english: "bill", greek: "λογαριασμός", article: "ο", gender: "masculine" },
   { id: "discount", type: "noun", level: 12, category: "money-shopping", english: "discount", greek: "έκπτωση", article: "η", gender: "feminine" },
   { id: "sale", type: "noun", level: 12, category: "money-shopping", english: "sale", greek: "προσφορά", article: "η", gender: "feminine" },
-  { id: "customer", type: "noun", level: 12, category: "money-shopping", english: "customer", greek: "πελάτης", article: "ο", gender: "masculine" },
   { id: "cashier", type: "noun", level: 12, category: "money-shopping", english: "cashier", greek: "ταμίας", article: "ο", gender: "masculine" },
   { id: "cash-register", type: "noun", level: 12, category: "money-shopping", english: "cash register", greek: "ταμείο", article: "το", gender: "neuter" },
   { id: "product", type: "noun", level: 12, category: "money-shopping", english: "product", greek: "προϊόν", article: "το", gender: "neuter" },
@@ -1119,6 +1127,7 @@ export const words = [
   // ===== People Roles =====
 
   // --- Level 13 ---
+  { id: "customer", type: "noun", level: 13, category: "people-roles", english: "customer", greek: "πελάτης", article: "ο", gender: "masculine" },
   { id: "vegetarian", type: "noun", level: 13, category: "people-roles", english: "vegetarian", greek: "χορτοφάγος", article: "ο/η", gender: "common" },
   { id: "owner", type: "noun", level: 13, category: "people-roles", english: "owner", greek: "ιδιοκτήτης", article: "ο", gender: "masculine" },
   { id: "landlord", type: "noun", level: 13, category: "people-roles", english: "landlord", greek: "σπιτονοικοκύρης", article: "ο", gender: "masculine" },
@@ -1151,7 +1160,6 @@ export const words = [
   { id: "makeup", type: "noun", level: 10, category: "personal-care", english: "makeup", greek: "μακιγιάζ", article: "το", gender: "neuter" },
   { id: "brush-personal", type: "noun", level: 10, category: "personal-care", english: "brush", greek: "βούρτσα", article: "η", gender: "feminine" },
   { id: "tissue", type: "noun", level: 10, category: "personal-care", english: "tissue", greek: "χαρτομάντιλο", article: "το", gender: "neuter" },
-  { id: "bandage", type: "noun", level: 10, category: "personal-care", english: "bandage", greek: "επίδεσμος", article: "ο", gender: "masculine" },
 
   // ===== Places =====
 
@@ -1331,6 +1339,7 @@ export const words = [
   // ===== School Office =====
 
   // --- Level 6 ---
+  { id: "book", type: "noun", level: 6, category: "school-office", english: "book", greek: "βιβλίο", article: "το", gender: "neuter" },
   { id: "scissors", type: "noun", level: 6, category: "school-office", english: "scissors", greek: "ψαλίδι", article: "το", gender: "neuter" },
   { id: "computer", type: "noun", level: 6, category: "school-office", english: "computer", greek: "υπολογιστής", article: "ο", gender: "masculine" },
   { id: "pencil", type: "noun", level: 6, category: "school-office", english: "pencil", greek: "μολύβι", article: "το", gender: "neuter" },

@@ -114,6 +114,8 @@ h1 {
 .selection-card:active,
 .primary-action:active,
 .secondary-action:active,
+.known-action:active,
+.review-action:active,
 .answer-button:active,
 .icon-button:active {
   transform: translateY(1px);
@@ -197,6 +199,8 @@ h1 {
 
 .primary-action,
 .secondary-action,
+.known-action,
+.review-action,
 .icon-button {
   border: 0;
   border-radius: 8px;
@@ -408,6 +412,38 @@ h1 {
   opacity: 0.48;
 }
 
+.known-action,
+.review-action {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 0 16px;
+  color: #ffffff;
+  transition:
+    background 160ms ease,
+    box-shadow 160ms ease,
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+.known-action {
+  background: #16805d;
+  box-shadow: 0 10px 20px rgba(22, 128, 93, 0.16);
+}
+
+.review-action {
+  background: #b9473f;
+  box-shadow: 0 10px 20px rgba(185, 71, 63, 0.16);
+}
+
+.known-action:disabled,
+.review-action:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
 .flashcard-panel {
   display: grid;
 }
@@ -466,6 +502,13 @@ h1 {
   grid-template-columns: 1fr auto 1fr;
   gap: 10px;
   margin-top: 16px;
+}
+
+.flashcard-rating-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 .results-panel {
@@ -576,7 +619,8 @@ h1 {
   }
 
   .study-actions,
-  .flashcard-actions {
+  .flashcard-actions,
+  .flashcard-rating-actions {
     grid-template-columns: 1fr;
   }
 

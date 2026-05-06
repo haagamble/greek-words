@@ -227,10 +227,11 @@ function App() {
   const currentWord = quizWords[currentIndex];
   const currentAnswer = answers[currentIndex];
   const score = answers.filter((answer) => answer?.isCorrect).length;
+  const reviewWords = quizWords.filter((word, index) => answers[index]?.isCorrect === false);
   const isStudyStarted = Boolean(studyMode && quizWords.length > 0);
   const isQuizActive = studyMode === "quiz";
   const isFlashcardsActive = studyMode === "flashcards";
-  const isComplete = isQuizActive && currentIndex >= quizWords.length;
+  const isComplete = (isQuizActive || isFlashcardsActive) && currentIndex >= quizWords.length;
 
   const options = useMemo(() => {
     if (!currentWord) {
@@ -295,6 +296,20 @@ function App() {
     setIsFlashcardFlipped(false);
   }
 
+  // Marks a flashcard as known or needing review, then advances through the deck.
+  function markFlashcard(knewWord) {
+    setAnswers((previousAnswers) => {
+      const nextAnswers = [...previousAnswers];
+      nextAnswers[currentIndex] = {
+        answer: knewWord ? "known" : "review",
+        isCorrect: knewWord,
+      };
+      return nextAnswers;
+    });
+    setCurrentIndex((index) => index + 1);
+    setIsFlashcardFlipped(false);
+  }
+
   // Returns to the setup screen while keeping the current mode.
   function resetQuiz() {
     setStudyMode(null);
@@ -306,9 +321,18 @@ function App() {
 
   // Starts another random quiz from the same selected level or topic.
   function replaySelection() {
-    const nextQuizWords = getQuizWords(selectedPool);
-    setStudyMode("quiz");
+    const nextQuizWords = isQuizActive ? getQuizWords(selectedPool) : shuffle(selectedPool);
+    setStudyMode(studyMode);
     setQuizWords(nextQuizWords);
+    setAnswers([]);
+    setCurrentIndex(0);
+    setIsFlashcardFlipped(false);
+  }
+
+  // Starts a focused flashcard pass using only missed or marked-for-review words.
+  function reviewMissedWords() {
+    setStudyMode("flashcards");
+    setQuizWords(shuffle(reviewWords));
     setAnswers([]);
     setCurrentIndex(0);
     setIsFlashcardFlipped(false);
@@ -446,7 +470,9 @@ function App() {
               <span>
                 Card {currentIndex + 1} of {quizWords.length}
               </span>
-              <strong>{selectionItems.find((item) => item.id === selection)?.title}</strong>
+              <strong>
+                {score} known · {reviewWords.length} review
+              </strong>
             </div>
           </div>
 
@@ -488,19 +514,42 @@ function App() {
               Next
             </button>
           </div>
+
+          <div className="flashcard-rating-actions">
+            <button
+              className="review-action"
+              type="button"
+              onClick={() => markFlashcard(false)}
+              disabled={!isFlashcardFlipped}
+            >
+              <X size={18} />
+              Review
+            </button>
+            <button
+              className="known-action"
+              type="button"
+              onClick={() => markFlashcard(true)}
+              disabled={!isFlashcardFlipped}
+            >
+              <Check size={18} />
+              Knew it
+            </button>
+          </div>
         </section>
       )}
 
       {isComplete && (
         <section className="results-panel" aria-labelledby="results-heading">
-          <p className="eyebrow">Quiz complete</p>
+          <p className="eyebrow">{isQuizActive ? "Quiz complete" : "Flashcards complete"}</p>
           <h1 id="results-heading">
             {score}/{quizWords.length}
           </h1>
           <p className="results-copy">
             {score === quizWords.length
               ? "Perfect score. That list is yours now."
-              : "Review the missed words and try another round when you are ready."}
+              : isQuizActive
+                ? "Review the missed words and try another round when you are ready."
+                : "Review the words you marked and try another pass when you are ready."}
           </p>
 
           <div className="review-list">
@@ -520,9 +569,18 @@ function App() {
             <button className="secondary-action" type="button" onClick={resetQuiz}>
               Choose another list
             </button>
+            <button
+              className="secondary-action"
+              type="button"
+              onClick={reviewMissedWords}
+              disabled={reviewWords.length === 0}
+            >
+              <BookOpen size={19} />
+              Review missed
+            </button>
             <button className="primary-action compact" type="button" onClick={replaySelection}>
               <RotateCcw size={19} />
-              New quiz from this list
+              {isQuizActive ? "New quiz from this list" : "New flashcards from this list"}
             </button>
           </div>
         </section>

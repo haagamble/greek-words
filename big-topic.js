@@ -32,7 +32,7 @@ export const bigTopics = [
   {
     id: "ideas-2",
     label: "Ideas 2",
-    categories: ["abstract-nouns", "law-rules"],
+    categories: ["abstract-nouns"],
     split: { "abstract-nouns": "second" },
   },
   {
@@ -53,11 +53,6 @@ export const bigTopics = [
     categories: ["household", "rooms", "house-parts", "appliances"],
   },
   {
-    id: "tools-tech",
-    label: "Tools & Tech",
-    categories: ["tools-objects", "technology", "materials", "elements"],
-  },
-  {
     id: "body-care",
     label: "Body & Care",
     categories: ["body-health", "personal-care"],
@@ -70,41 +65,61 @@ export const bigTopics = [
   {
     id: "nature-weather",
     label: "Nature & Weather",
-    categories: ["nature", "nature-places", "places", "weather", "seasons"],
+    categories: ["nature", "nature-places", "weather", "seasons"],
   },
   {
-    id: "travel",
-    label: "Travel",
-    categories: ["geography", "road-travel", "travel", "vehicles"],
+    id: "places-errands",
+    label: "Places & Errands",
+    categories: ["places", "money-shopping"],
   },
   {
-    id: "number-measure",
-    label: "Number & Measure",
-    categories: ["numbers", "ordinals", "measurements", "shapes", "time-expressions", "time-units", "days-week"],
+    id: "travel-geography",
+    label: "Travel & Geography",
+    categories: ["travel", "vehicles", "road-travel", "geography"],
   },
   {
-    id: "people-words",
-    label: "People & Language",
-    categories: ["people-family", "people-roles", "communication"],
+    id: "people-society",
+    label: "People & Society",
+    categories: ["people-family", "people-roles", "law-rules"],
   },
   {
     id: "work-school",
     label: "Work & School",
-    categories: ["professions", "school-office", "school-subjects"],
+    categories: ["professions", "school-office", "school-subjects", "education-levels"],
   },
   {
-    id: "grammar",
-    label: "Grammar",
+    id: "communication-stories",
+    label: "Communication & Stories",
+    categories: ["communication"],
+  },
+  {
+    id: "grammar-phrases",
+    label: "Grammar & Phrases",
     categories: ["common-phrases", "question-words", "function-words", "prepositions", "pronouns", "adverbs"],
   },
   {
-    id: "shopping-style",
-    label: "Shopping & Style",
-    categories: ["money-shopping", "clothing", "precious-stones"],
+    id: "numbers-time",
+    label: "Numbers & Time",
+    categories: ["numbers", "ordinals", "measurements", "shapes", "time-expressions", "time-units", "days-week"],
   },
   {
-    id: "sports-music",
-    label: "Sports & Music",
+    id: "tools-technology",
+    label: "Tools & Technology",
+    categories: ["tools-objects", "technology"],
+  },
+  {
+    id: "materials-elements",
+    label: "Materials & Elements",
+    categories: ["materials", "elements"],
+  },
+  {
+    id: "shopping-style",
+    label: "Clothing & Style",
+    categories: ["clothing", "precious-stones"],
+  },
+  {
+    id: "sports-music-toys",
+    label: "Sports, Music & Toys",
     categories: ["sports", "musical-instruments", "toys"],
   },
 ];

@@ -514,9 +514,11 @@ function App() {
           </button>
 
           {!isFlashcardFlipped && (
-            <button className="primary-action compact" type="button" onClick={() => setIsFlashcardFlipped((flipped) => !flipped)}>
-              Show answer
-            </button>
+            <div className="flashcard-answer-action">
+              <button className="primary-action compact" type="button" onClick={() => setIsFlashcardFlipped((flipped) => !flipped)}>
+                Show answer
+              </button>
+            </div>
           )}
 
           <div className={`flashcard-rating-actions ${isFlashcardFlipped ? "visible" : ""}`} aria-hidden={!isFlashcardFlipped}>

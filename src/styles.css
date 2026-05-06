@@ -451,6 +451,11 @@ h1 {
 
 .flashcard-panel {
   display: grid;
+  width: min(100%, 720px);
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  padding-inline: clamp(4px, 2vw, 18px);
 }
 
 .flashcard-nav {
@@ -523,10 +528,19 @@ h1 {
   line-height: 1.04;
 }
 
-.flashcard-panel > .primary-action.compact {
+.flashcard-answer-action {
+  width: min(100%, 580px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   justify-self: center;
-  min-width: min(100%, 210px);
+  gap: 10px;
   margin-top: 16px;
+}
+
+.flashcard-answer-action .primary-action.compact {
+  width: 100%;
+  justify-self: center;
+  grid-column: 1;
 }
 
 .flashcard-rating-actions {

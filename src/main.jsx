@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { ArrowLeft, BookOpen, Check, RotateCcw, Sparkles, X } from "lucide-react";
+import { ArrowLeft, BookOpen, Check, ChevronLeft, ChevronRight, RotateCcw, Sparkles, X } from "lucide-react";
 import { words } from "../words.js";
 import { bigTopics } from "../big-topic.js";
 import "./styles.css";
@@ -480,13 +480,28 @@ function App() {
             <span style={{ width: `${((currentIndex + 1) / quizWords.length) * 100}%` }} />
           </div>
 
+          <div className="flashcard-nav">
+            <button className="icon-button" type="button" onClick={previousFlashcard} disabled={currentIndex === 0} aria-label="Previous card">
+              <ChevronLeft size={21} />
+            </button>
+            <span>{selectionItems.find((item) => item.id === selection)?.title}</span>
+            <button
+              className="icon-button"
+              type="button"
+              onClick={nextFlashcard}
+              disabled={currentIndex + 1 === quizWords.length}
+              aria-label="Next card"
+            >
+              <ChevronRight size={21} />
+            </button>
+          </div>
+
           <button
             className={`flashcard ${isFlashcardFlipped ? "flipped" : ""}`}
             type="button"
             onClick={() => setIsFlashcardFlipped((flipped) => !flipped)}
             aria-label="Flip flashcard"
           >
-            <span className="flashcard-label">{isFlashcardFlipped ? "English" : "Greek"}</span>
             <strong id="flashcard-heading">
               {isFlashcardFlipped ? (
                 currentWord.english
@@ -498,24 +513,13 @@ function App() {
             </strong>
           </button>
 
-          <div className="flashcard-actions">
-            <button className="secondary-action" type="button" onClick={previousFlashcard} disabled={currentIndex === 0}>
-              Previous
-            </button>
+          {!isFlashcardFlipped && (
             <button className="primary-action compact" type="button" onClick={() => setIsFlashcardFlipped((flipped) => !flipped)}>
-              Flip card
+              Show answer
             </button>
-            <button
-              className="secondary-action"
-              type="button"
-              onClick={nextFlashcard}
-              disabled={currentIndex + 1 === quizWords.length}
-            >
-              Next
-            </button>
-          </div>
+          )}
 
-          <div className="flashcard-rating-actions">
+          <div className={`flashcard-rating-actions ${isFlashcardFlipped ? "visible" : ""}`} aria-hidden={!isFlashcardFlipped}>
             <button
               className="review-action"
               type="button"

@@ -3,6 +3,7 @@
     "dev": "vite --configLoader runner",
     "build": "vite build --configLoader runner",
     "counts": "node scripts/count-categories.mjs",
+    "sort-words": "node scripts/sort-words.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

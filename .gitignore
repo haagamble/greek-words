@@ -19,6 +19,7 @@ pnpm-debug.log*
 # Generated local reports
 category-counts.txt
 scripts/count-categories.mjs
+scripts/sort-words.mjs
 
 # Scratch vocabulary files not used by the app
 words-extra.js

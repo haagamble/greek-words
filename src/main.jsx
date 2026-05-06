@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { ArrowLeft, Check, RotateCcw, Sparkles, X } from "lucide-react";
+import { ArrowLeft, BookOpen, Check, RotateCcw, Sparkles, X } from "lucide-react";
 import { words } from "../words.js";
 import { bigTopics } from "../big-topic.js";
 import "./styles.css";
@@ -206,10 +206,12 @@ function getTopicWords(topic, allWords) {
 // Main app component: handles setup, quiz state, answers, and results.
 function App() {
   const [mode, setMode] = useState("level");
+  const [studyMode, setStudyMode] = useState(null);
   const [selection, setSelection] = useState(null);
   const [quizWords, setQuizWords] = useState([]);
   const [answers, setAnswers] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isFlashcardFlipped, setIsFlashcardFlipped] = useState(false);
 
   const levelItems = useMemo(getLevelItems, []);
   const categoryItems = useMemo(getCategoryItems, []);
@@ -225,8 +227,10 @@ function App() {
   const currentWord = quizWords[currentIndex];
   const currentAnswer = answers[currentIndex];
   const score = answers.filter((answer) => answer?.isCorrect).length;
-  const isQuizStarted = quizWords.length > 0;
-  const isComplete = isQuizStarted && currentIndex >= quizWords.length;
+  const isStudyStarted = Boolean(studyMode && quizWords.length > 0);
+  const isQuizActive = studyMode === "quiz";
+  const isFlashcardsActive = studyMode === "flashcards";
+  const isComplete = isQuizActive && currentIndex >= quizWords.length;
 
   const options = useMemo(() => {
     if (!currentWord) {
@@ -244,9 +248,20 @@ function App() {
   // Starts a fresh quiz from the current selection.
   function startQuiz() {
     const nextQuizWords = getQuizWords(selectedPool);
+    setStudyMode("quiz");
     setQuizWords(nextQuizWords);
     setAnswers([]);
     setCurrentIndex(0);
+    setIsFlashcardFlipped(false);
+  }
+
+  // Starts flashcards from the current selection.
+  function startFlashcards() {
+    setStudyMode("flashcards");
+    setQuizWords(shuffle(selectedPool));
+    setAnswers([]);
+    setCurrentIndex(0);
+    setIsFlashcardFlipped(false);
   }
 
   // Records the user's answer and prevents changing it afterward.
@@ -270,24 +285,38 @@ function App() {
     setCurrentIndex((index) => index + 1);
   }
 
+  function previousFlashcard() {
+    setCurrentIndex((index) => Math.max(0, index - 1));
+    setIsFlashcardFlipped(false);
+  }
+
+  function nextFlashcard() {
+    setCurrentIndex((index) => Math.min(quizWords.length - 1, index + 1));
+    setIsFlashcardFlipped(false);
+  }
+
   // Returns to the setup screen while keeping the current mode.
   function resetQuiz() {
+    setStudyMode(null);
     setQuizWords([]);
     setAnswers([]);
     setCurrentIndex(0);
+    setIsFlashcardFlipped(false);
   }
 
   // Starts another random quiz from the same selected level or topic.
   function replaySelection() {
     const nextQuizWords = getQuizWords(selectedPool);
+    setStudyMode("quiz");
     setQuizWords(nextQuizWords);
     setAnswers([]);
     setCurrentIndex(0);
+    setIsFlashcardFlipped(false);
   }
 
   return (
-    <main className={`app-shell ${isQuizStarted && !isComplete ? "quiz-active" : ""}`}>
-      {!isQuizStarted && (
+    <main className={`app-shell ${isStudyStarted && !isComplete ? "quiz-active" : ""}`}>
+      {!isStudyStarted && (
         <section className="setup-panel" aria-labelledby="setup-heading">
           <p className="eyebrow">Greek vocabulary</p>
           <h1 id="setup-heading">First 1500 Words</h1>
@@ -327,14 +356,20 @@ function App() {
             ))}
           </div>
 
-          <button className="primary-action start-action" type="button" disabled={!selection} onClick={startQuiz}>
-            <Sparkles size={20} />
-            Start 10-question quiz
-          </button>
+          <div className="study-actions">
+            <button className="primary-action start-action" type="button" disabled={!selection} onClick={startQuiz}>
+              <Sparkles size={20} />
+              10-question quiz
+            </button>
+            <button className="secondary-action start-action" type="button" disabled={!selection} onClick={startFlashcards}>
+              <BookOpen size={20} />
+              Flashcards
+            </button>
+          </div>
         </section>
       )}
 
-      {isQuizStarted && !isComplete && currentWord && (
+      {isQuizActive && !isComplete && currentWord && (
         <section className="quiz-panel" aria-labelledby="question-heading">
           <div className="quiz-topbar">
             <button className="icon-button" type="button" onClick={resetQuiz} aria-label="Back to lists">
@@ -396,6 +431,61 @@ function App() {
               tabIndex={currentAnswer ? 0 : -1}
             >
                 {currentIndex + 1 === quizWords.length ? "See results" : "Next question"}
+            </button>
+          </div>
+        </section>
+      )}
+
+      {isFlashcardsActive && currentWord && (
+        <section className="quiz-panel flashcard-panel" aria-labelledby="flashcard-heading">
+          <div className="quiz-topbar">
+            <button className="icon-button" type="button" onClick={resetQuiz} aria-label="Back to lists">
+              <ArrowLeft size={20} />
+            </button>
+            <div className="progress-copy">
+              <span>
+                Card {currentIndex + 1} of {quizWords.length}
+              </span>
+              <strong>{selectionItems.find((item) => item.id === selection)?.title}</strong>
+            </div>
+          </div>
+
+          <div className="progress-track" aria-hidden="true">
+            <span style={{ width: `${((currentIndex + 1) / quizWords.length) * 100}%` }} />
+          </div>
+
+          <button
+            className={`flashcard ${isFlashcardFlipped ? "flipped" : ""}`}
+            type="button"
+            onClick={() => setIsFlashcardFlipped((flipped) => !flipped)}
+            aria-label="Flip flashcard"
+          >
+            <span className="flashcard-label">{isFlashcardFlipped ? "English" : "Greek"}</span>
+            <strong id="flashcard-heading">
+              {isFlashcardFlipped ? (
+                currentWord.english
+              ) : (
+                <>
+                  {currentWord.article && <span className="article-hint">{currentWord.article}</span>} {currentWord.greek}
+                </>
+              )}
+            </strong>
+          </button>
+
+          <div className="flashcard-actions">
+            <button className="secondary-action" type="button" onClick={previousFlashcard} disabled={currentIndex === 0}>
+              Previous
+            </button>
+            <button className="primary-action compact" type="button" onClick={() => setIsFlashcardFlipped((flipped) => !flipped)}>
+              Flip card
+            </button>
+            <button
+              className="secondary-action"
+              type="button"
+              onClick={nextFlashcard}
+              disabled={currentIndex + 1 === quizWords.length}
+            >
+              Next
             </button>
           </div>
         </section>
